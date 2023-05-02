@@ -40,8 +40,8 @@ def main():
     args = parser.parse_args()
     result = (generate_diff(json.load(open(args.first_file)),
                             json.load(open(args.second_file))))
-    for i in result:
-        print(i)
+    for i, j in result.items():
+        print(i, j)
     # generate_diff(json.load(open('hexlet_code/gendiff/files/file1.json')),
     # json.load(open('hexlet_code/gendiff/files/file2.json')))
 
