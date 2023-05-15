@@ -1,43 +1,42 @@
 import argparse
 import json
 import yaml
-import copy
 
 
-def generate_diff(file1, file2):
-    myKeys = list(file1.keys())
-    myKeys.sort()
-    sorted_dict1 = {i: file1[i] for i in myKeys}
-    myKeys = list(file2.keys())
-    myKeys.sort()
-    sorted_dict2 = {i: file2[i] for i in myKeys}
-    print("Sortet 1:", sorted_dict1)
-    print("Sortet 2:", sorted_dict2)
-    output = {}
-    index_list1 = list(sorted_dict1.keys())
-    for index1, value1 in sorted_dict1.items():
-        flag = False
-        for index2, value2 in sorted_dict2.items():
-            if index1 == index2:
-                flag = True
-                if value1 == value2:
-                    output[str(index1)] = value1
-                else:
-                    output['- ' + str(index1)] = value1
-                    output['+ ' + str(index1)] = value2
-            if index2 not in index_list1 and index2 < index1:
-                output['+ ' + str(index2)] = value2
-        if flag is False:
-            output['- ' + str(index1)] = value1
-    # add all from dict 2 that is not in dict 1 aka "+"
-    for index2, value2 in sorted_dict2.items():
-        flag = True
-        for index1, value1 in sorted_dict1.items():
-            if index2 == index1:
-                flag = False
-        if flag:
-            output['+ ' + str(index2)] = value2
-    return output
+# def generate_diff(file1, file2):
+#     myKeys = list(file1.keys())
+#     myKeys.sort()
+#     sorted_dict1 = {i: file1[i] for i in myKeys}
+#     myKeys = list(file2.keys())
+#     myKeys.sort()
+#     sorted_dict2 = {i: file2[i] for i in myKeys}
+#     print("Sortet 1:", sorted_dict1)
+#     print("Sortet 2:", sorted_dict2)
+#     output = {}
+#     index_list1 = list(sorted_dict1.keys())
+#     for index1, value1 in sorted_dict1.items():
+#         flag = False
+#         for index2, value2 in sorted_dict2.items():
+#             if index1 == index2:
+#                 flag = True
+#                 if value1 == value2:
+#                     output[str(index1)] = value1
+#                 else:
+#                     output['- ' + str(index1)] = value1
+#                     output['+ ' + str(index1)] = value2
+#             if index2 not in index_list1 and index2 < index1:
+#                 output['+ ' + str(index2)] = value2
+#         if flag is False:
+#             output['- ' + str(index1)] = value1
+#     # add all from dict 2 that is not in dict 1 aka "+"
+#     for index2, value2 in sorted_dict2.items():
+#         flag = True
+#         for index1, value1 in sorted_dict1.items():
+#             if index2 == index1:
+#                 flag = False
+#         if flag:
+#             output['+ ' + str(index2)] = value2
+#     return output
 
 
 def diff(unsorted_dict1, unsorted_dict2):
@@ -78,7 +77,7 @@ def diff(unsorted_dict1, unsorted_dict2):
     return output
 
 
-def diff_plain(unsorted_dict1, unsorted_dict2, path=''):
+def generate_diff(unsorted_dict1, unsorted_dict2, path=''):
     myKeys = list(unsorted_dict1.keys())
     myKeys.sort()
     dict1 = {i: unsorted_dict1[i] for i in myKeys}
@@ -99,7 +98,7 @@ def diff_plain(unsorted_dict1, unsorted_dict2, path=''):
             # Если ключи равны и оба значения -- словари, то рекурсируем в них
             if index1 == index2 and type(value1) is dict and type(value2) is dict:
                 flag = False
-                output_plain += diff_plain(value1, value2, path)
+                output_plain += generate_diff(value1, value2, path)
             else:
                 path_before = path
                 if index2 not in list(dict1.keys()) and index2 < index1:
@@ -188,7 +187,7 @@ def main():
         with open(args.second_file) as f:
             data2 = yaml.load(f, Loader=yaml.FullLoader)
     if args.format == 'plain':
-        result = diff_plain(data1, data2)
+        result = generate_diff(data1, data2)
     elif args.format == 'json':
         result = json.dumps(diff(data1, data2))
     else:
