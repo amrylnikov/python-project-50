@@ -1,4 +1,5 @@
-from hexlet_code.gendiff.scripts.gendiff import diff, stylish
+# from hexlet_code.gendiff.scripts.gendiff import diff, stylish
+from hexlet_code.gendiff import diff, stylish
 import json
 import yaml
 
