@@ -1,1 +1,1 @@
-from hexlet_code.gendiff import *
+from hexlet_code.gendiff import diff, stylish
