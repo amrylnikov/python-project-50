@@ -1,4 +1,4 @@
-from main import generate_diff
+from gendiff import generate_diff
 import json
 
 deep_json1 = r'C:\Users\Алексей\PycharmProjects\diff-calc\tests\fixtures\file1.json'
