@@ -105,7 +105,7 @@ def plain_diff(unsorted_dict1, unsorted_dict2, path=''):
                 if index2 not in list(dict1.keys()) and index2 < index1:
                     if default_path == '':
                         path = str(index2)
-                    else: 
+                    else:
                         path = default_path + '.' + str(index2)
                     if path not in path_keys:
                         if type(value2) is dict:
