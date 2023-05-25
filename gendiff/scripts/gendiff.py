@@ -143,7 +143,7 @@ def plain_diff(unsorted_dict1, unsorted_dict2, path=''):
                             elif type(value1) is dict and type(value2) is dict:
                                 output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + '[complex value]' + "\n"
                             else:
-                                output_plain += "Property \'" + path + '\' was updated. From ' + str(value1) + ' to \'' + str(value2) + '\''+ "\n"
+                                output_plain += "Property \'" + path + '\' was updated. From ' + str(value1) + ' to \'' + str(value2) + '\'' + "\n"
                         elif type(value1) is str and type(value2) is str:
                             if type(value2) is dict:
                                 output_plain += "Property \'" + path + '\' was updated. From \'' + str(value1) + '\' to ' + '[complex value]' + "\n"
@@ -152,7 +152,7 @@ def plain_diff(unsorted_dict1, unsorted_dict2, path=''):
                             elif type(value1) is dict and type(value2) is dict:
                                 output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + '[complex value]' + "\n"
                             else:
-                                output_plain += "Property \'" + path + '\' was updated. From \'' + str(value1) + '\' to \'' + str(value2) + '\''+ "\n"
+                                output_plain += "Property \'" + path + '\' was updated. From \'' + str(value1) + '\' to \'' + str(value2) + '\'' + "\n"
         path = default_path
         if flag:
             if default_path != '':
@@ -199,8 +199,8 @@ def stylish_plain(input):
     trans8 = trans7.replace('  ', ' \' \'')
     trans9 = trans8.replace('\'true\'', 'true')
     trans10 = trans9.replace('\'false\'', 'false')
-
-    return trans10
+    trans11 = trans10[0:-1]
+    return trans11
 
 def generate_diff(file1_path, file2_path, format=''):
     #Getting data from files path while checking format
