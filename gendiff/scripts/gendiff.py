@@ -38,7 +38,6 @@ import yaml
 #             output['+ ' + str(index2)] = value2
 #     return output
 
-
 def diff(unsorted_dict1, unsorted_dict2):
     myKeys = list(unsorted_dict1.keys())
     myKeys.sort()
@@ -169,11 +168,12 @@ def stylish(dict1):
 
 def stylish_plain(input):
     trans1 = input.replace('\'False\'', 'false')
-    trans2 = trans1.replace('removed:', 'removed')
+    trans2 = trans1.replace('removed: ', 'removed')
     trans3 = trans2.replace('True', 'true')
     trans4 = trans3.replace('False', 'false')
     trans5 = trans4.replace('\'True\'', 'true')
-    return trans5
+    trans6 = trans5.replace(' str', ' \'str\'')
+    return trans6
 
 def generate_diff(file1_path, file2_path, format=''):
     #Getting data from files path while checking format
