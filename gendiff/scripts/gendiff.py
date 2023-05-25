@@ -102,7 +102,10 @@ def plain_diff(unsorted_dict1, unsorted_dict2, path=''):
                 path_before = path
                 if index2 not in list(dict1.keys()) and index2 < index1:
                     flag2 = False
-                    path = default_path + '.' + str(index2)
+                    if default_path == '':
+                        path = str(index2)
+                    else: 
+                        path = default_path + '.' + str(index2)
                     if path not in path_keys:
                         if type(value2) is dict:
                             output_plain += "Property \'" + path + '\' was added with value: ' + '[complex value]' + "\n"
@@ -112,25 +115,44 @@ def plain_diff(unsorted_dict1, unsorted_dict2, path=''):
                 path = path_before
                 if index1 == index2:
                     flag = False
-                    # Всё сложно. Тут надо проверить, переменную на словарь и стринговость
-                    # if value1 != value2 and type(value1) is not str:
-                    #     if type(value2) is dict:
-                    #         output_plain += "Property \'" + path + '\' was updated. From ' + str(value1) + ' to ' + '[complex value]' + "\n"
-                    #     elif type(value1) is dict:
-                    #         output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + str(value2) + "\n"
-                    #     elif type(value1) is dict and type(value2) is dict:
-                    #         output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + '[complex value]' + "\n"
-                    #     else:
-                    #         output_plain += "Property \'" + path + '\' was updated. From ' + str(value1) + ' to ' + str(value2) + "\n"
+                    # Всё сложно. Тут надо проверить, переменную на словарь и стринговость, ибо от этого зависят кавычки. Нда
                     if value1 != value2:
-                        if type(value2) is dict:
-                            output_plain += "Property \'" + path + '\' was updated. From \'' + str(value1) + '\' to ' + '[complex value]' + "\n"
-                        elif type(value1) is dict:
-                            output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to \'' + str(value2) + '\'' + "\n"
-                        elif type(value1) is dict and type(value2) is dict:
-                            output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + '[complex value]' + "\n"
-                        else:
-                            output_plain += "Property \'" + path + '\' was updated. From \'' + str(value1) + '\' to \'' + str(value2) + '\''+ "\n"
+                        if type(value1) is not str and type(value2) is not str:
+                            if type(value2) is dict:
+                                output_plain += "Property \'" + path + '\' was updated. From ' + str(value1) + ' to ' + '[complex value]' + "\n"
+                            elif type(value1) is dict:
+                                output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + str(value2) + "\n"
+                            elif type(value1) is dict and type(value2) is dict:
+                                output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + '[complex value]' + "\n"
+                            else:
+                                output_plain += "Property \'" + path + '\' was updated. From ' + str(value1) + ' to ' + str(value2) + "\n"
+                        elif type(value1) is str and type(value2) is not str:
+                            if type(value2) is dict:
+                                output_plain += "Property \'" + path + '\' was updated. From \'' + str(value1) + '\' to ' + '[complex value]' + "\n"
+                            elif type(value1) is dict:
+                                output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + str(value2) + "\n"
+                            elif type(value1) is dict and type(value2) is dict:
+                                output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + '[complex value]' + "\n"
+                            else:
+                                output_plain += "Property \'" + path + '\' was updated. From \'' + str(value1) + '\' to ' + str(value2) + "\n"
+                        elif type(value1) is not str and type(value2) is str:
+                            if type(value2) is dict:
+                                output_plain += "Property \'" + path + '\' was updated. From ' + str(value1) + ' to ' + '[complex value]' + "\n"
+                            elif type(value1) is dict:
+                                output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to \'' + str(value2) + '\'' + "\n"
+                            elif type(value1) is dict and type(value2) is dict:
+                                output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + '[complex value]' + "\n"
+                            else:
+                                output_plain += "Property \'" + path + '\' was updated. From ' + str(value1) + ' to \'' + str(value2) + '\''+ "\n"
+                        elif type(value1) is str and type(value2) is str:
+                            if type(value2) is dict:
+                                output_plain += "Property \'" + path + '\' was updated. From \'' + str(value1) + '\' to ' + '[complex value]' + "\n"
+                            elif type(value1) is dict:
+                                output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to \'' + str(value2) + '\'' + "\n"
+                            elif type(value1) is dict and type(value2) is dict:
+                                output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + '[complex value]' + "\n"
+                            else:
+                                output_plain += "Property \'" + path + '\' was updated. From \'' + str(value1) + '\' to \'' + str(value2) + '\''+ "\n"
         path = default_path
         if flag:
             if default_path != '':
@@ -149,7 +171,7 @@ def plain_diff(unsorted_dict1, unsorted_dict2, path=''):
         for index1, value1 in dict1.items():
             if index2 == index1:
                 flag = False
-        if flag and path not in path_keys:
+        if flag and (path not in path_keys):
             if type(value2) is dict:
                 output_plain += "Property \'" + path + '\' was added with value: ' + '[complex value]' + "\n"
             else:
@@ -175,7 +197,10 @@ def stylish_plain(input):
     trans6 = trans5.replace(' str', ' \'str\'')
     trans7 = trans6.replace('None', 'null')
     trans8 = trans7.replace('  ', ' \' \'')
-    return trans8
+    trans9 = trans8.replace('\'true\'', 'true')
+    trans10 = trans9.replace('\'false\'', 'false')
+
+    return trans10
 
 def generate_diff(file1_path, file2_path, format=''):
     #Getting data from files path while checking format
@@ -291,6 +316,16 @@ def main():
             "deep": {
                 "id": 45
             }
+        },
+        "group4": {
+            "default": None,
+            "foo": 0,
+            "isNested": False,
+            "nest": {
+                "bar": "",
+                "isNested": "fasd"
+            },
+            "type": "bas"
         }
     }
     x = {
@@ -322,8 +357,31 @@ def main():
                 }
             },
             "fee": 100500
+        },
+        "group4": {
+            "default": '',
+            "foo": None,
+            "isNested": 'none',
+            "key": False,
+            "nest": {
+                "bar": 0,
+            },
+            "someKey": True,
+            "type": "bar"
         }
     }
+
+    # E         - Property 'group4.default' was updated. From null to ''
+    # E         - Property 'group4.foo' was updated. From 0 to null
+    # E           Property 'group4.isNested' was updated. From false to 'none'
+    # E           Property 'group4.key' was added with value: false
+    # E         - Property 'group4.nest.bar' was updated. From '' to 0
+    # E           Property 'group4.nest.isNested' was removed
+    # E         - Property 'group4.someKey' was added with value: true
+    # E         - Property 'group4.type' was updated. From 'bas' to 'bar'
+
+
+
     # deep_json1 = r'C:\Users\Алексей\PycharmProjects\diff-calc\tests\fixtures\file1.json'
     # deep_json2 = r'C:\Users\Алексей\PycharmProjects\diff-calc\tests\fixtures\file2.json'
     # t = json.load(open(deep_json1))
