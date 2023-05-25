@@ -113,16 +113,16 @@ def plain_diff(unsorted_dict1, unsorted_dict2, path=''):
                 if index1 == index2:
                     flag = False
                     # Всё сложно. Тут надо проверить, переменную на словарь и стринговость
-                    if value1 != value2 and type(value1) is not str:
-                        if type(value2) is dict:
-                            output_plain += "Property \'" + path + '\' was updated. From ' + str(value1) + ' to ' + '[complex value]' + "\n"
-                        elif type(value1) is dict:
-                            output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + str(value2) + "\n"
-                        elif type(value1) is dict and type(value2) is dict:
-                            output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + '[complex value]' + "\n"
-                        else:
-                            output_plain += "Property \'" + path + '\' was updated. From ' + str(value1) + ' to ' + str(value2) + "\n"
-                    if value1 != value2 and type(value1) is str:
+                    # if value1 != value2 and type(value1) is not str:
+                    #     if type(value2) is dict:
+                    #         output_plain += "Property \'" + path + '\' was updated. From ' + str(value1) + ' to ' + '[complex value]' + "\n"
+                    #     elif type(value1) is dict:
+                    #         output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + str(value2) + "\n"
+                    #     elif type(value1) is dict and type(value2) is dict:
+                    #         output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + '[complex value]' + "\n"
+                    #     else:
+                    #         output_plain += "Property \'" + path + '\' was updated. From ' + str(value1) + ' to ' + str(value2) + "\n"
+                    if value1 != value2:
                         if type(value2) is dict:
                             output_plain += "Property \'" + path + '\' was updated. From \'' + str(value1) + '\' to ' + '[complex value]' + "\n"
                         elif type(value1) is dict:
@@ -173,7 +173,9 @@ def stylish_plain(input):
     trans4 = trans3.replace('False', 'false')
     trans5 = trans4.replace('\'True\'', 'true')
     trans6 = trans5.replace(' str', ' \'str\'')
-    return trans6
+    trans7 = trans6.replace('None', 'null')
+    trans8 = trans7.replace('  ', ' \' \'')
+    return trans8
 
 def generate_diff(file1_path, file2_path, format=''):
     #Getting data from files path while checking format
