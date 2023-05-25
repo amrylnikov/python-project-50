@@ -9,8 +9,8 @@ def test_generate_diff():
     json2 = 'tests/fixtures/old_file2.json'
     yml1 = 'tests/fixtures/file1.yml'
     yml2 = 'tests/fixtures/file2.yml'
-    deep_json1 = 'tests/fixtures/file1.json'
-    deep_json2 = 'tests/fixtures/file2.json'
+    # deep_json1 = 'tests/fixtures/file1.json'
+    # deep_json2 = 'tests/fixtures/file2.json'
     with open(yml1) as f:
         data1 = yaml.load(f, Loader=yaml.FullLoader)
     with open(yml2) as f:
