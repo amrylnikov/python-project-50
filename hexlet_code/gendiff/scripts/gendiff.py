@@ -87,7 +87,6 @@ def generate_diff(unsorted_dict1, unsorted_dict2, path=''):
     default_path = path
     path_keys = []
     output_plain = ''
-    flag2 = True
     for index1, value1 in dict1.items():
         if path != '':
             path += '.' + str(index1)
@@ -102,7 +101,6 @@ def generate_diff(unsorted_dict1, unsorted_dict2, path=''):
             else:
                 path_before = path
                 if index2 not in list(dict1.keys()) and index2 < index1:
-                    flag2 = False
                     path = default_path + '.' + str(index2)
                     if path not in path_keys:
                         if type(value2) is dict:
@@ -131,13 +129,13 @@ def generate_diff(unsorted_dict1, unsorted_dict2, path=''):
                         elif type(value1) is dict and type(value2) is dict:
                             output_plain += "Property \'" + path + '\' was updated. From ' + '[complex value]' + ' to ' + '[complex value]' + "\n"
                         else:
-                            output_plain += "Property \'" + path + '\' was updated. From \'' + str(value1) + '\' to \'' + str(value2) + '\''+ "\n"
+                            output_plain += "Property \'" + path + '\' was updated. From \'' + str(value1) + '\' to \'' + str(value2) + '\'' + "\n"
         path = default_path
         if flag:
             if default_path != '':
                 path += '.' + str(index1)
             else:
-                path =  str(index1)
+                path = str(index1)
             output_plain += "Property \'" + path + '\' was removed: ' + "\n"
         path = default_path
     # add all from dict 2 that is not in dict 1 aka "+"

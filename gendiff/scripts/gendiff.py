@@ -51,7 +51,8 @@ def diff(unsorted_dict1, unsorted_dict2):
         flag = True
         for index2, value2 in dict2.items():
             # Если ключи равны и оба значения -- словари, то рекурсируем в них
-            if index1 == index2 and type(value1) is dict and type(value2) is dict:
+            if (index1 == index2 and type(value1) is dict
+                    and type(value2) is dict):
                 flag = False
                 output[index1] = diff(value1, value2)
             else:
@@ -87,7 +88,6 @@ def plain_diff(unsorted_dict1, unsorted_dict2, path=''):
     default_path = path
     path_keys = []
     output_plain = ''
-    flag2 = True
     for index1, value1 in dict1.items():
         if path != '':
             path += '.' + str(index1)
@@ -96,13 +96,13 @@ def plain_diff(unsorted_dict1, unsorted_dict2, path=''):
         flag = True
         for index2, value2 in dict2.items():
             # Если ключи равны и оба значения -- словари, то рекурсируем в них
-            if index1 == index2 and type(value1) is dict and type(value2) is dict:
+            if (index1 == index2 and type(value1) is dict
+                    and type(value2) is dict):
                 flag = False
                 output_plain += plain_diff(value1, value2, path)
             else:
                 path_before = path
                 if index2 not in list(dict1.keys()) and index2 < index1:
-                    flag2 = False
                     if default_path == '':
                         path = str(index2)
                     else: 
@@ -159,7 +159,7 @@ def plain_diff(unsorted_dict1, unsorted_dict2, path=''):
             if default_path != '':
                 path += '.' + str(index1)
             else:
-                path =  str(index1)
+                path = str(index1)
             output_plain += "Property \'" + path + '\' was removed: ' + "\n"
         path = default_path
     # add all from dict 2 that is not in dict 1 aka "+"
