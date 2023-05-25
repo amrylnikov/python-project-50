@@ -1,2 +1,2 @@
-from hexlet_code.gendiff.scripts.gendiff import *
+from gendiff.scripts.gendiff import *
 

@@ -5,8 +5,8 @@ import yaml
 
 
 def test_generate_diff():
-    json1 = 'hexlet_code/gendiff/files/file1.json'
-    json2 = 'hexlet_code/gendiff/files/file2.json'
+    json1 = 'tests/fixtures/old_file1.json'
+    json2 = 'tests/fixtures/old_file2.json'
     yml1 = 'tests/fixtures/file1.yml'
     yml2 = 'tests/fixtures/file2.yml'
     deep_json1 = 'tests/fixtures/file1.json'

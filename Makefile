@@ -11,7 +11,7 @@ reinstall:
 	pip install --user --force-reinstall dist/*.whl
 
 gendiff:
-	poetry run gendiff
+	poetry run gendiff tests/fixtures/file1.json tests/fixtures/file2.json
 
 test:
 	poetry run pytest

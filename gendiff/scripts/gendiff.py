@@ -77,7 +77,7 @@ def diff(unsorted_dict1, unsorted_dict2):
     return output
 
 
-def generate_diff(unsorted_dict1, unsorted_dict2, path=''):
+def plain_diff(unsorted_dict1, unsorted_dict2, path=''):
     myKeys = list(unsorted_dict1.keys())
     myKeys.sort()
     dict1 = {i: unsorted_dict1[i] for i in myKeys}
@@ -98,7 +98,7 @@ def generate_diff(unsorted_dict1, unsorted_dict2, path=''):
             # Если ключи равны и оба значения -- словари, то рекурсируем в них
             if index1 == index2 and type(value1) is dict and type(value2) is dict:
                 flag = False
-                output_plain += generate_diff(value1, value2, path)
+                output_plain += plain_diff(value1, value2, path)
             else:
                 path_before = path
                 if index2 not in list(dict1.keys()) and index2 < index1:
@@ -167,6 +167,29 @@ def stylish(dict1):
     trans4 = trans3.replace(',', '')
     return trans4
 
+def generate_diff(file1_path, file2_path, format=''):
+    #Getting data from files path while checking format
+    if file1_path[-4:] == 'json':
+        data1 = json.load(open(file1_path))
+    elif (file1_path[-4:] == '.yml'
+            or file1_path[-4:] == 'yaml'):
+        with open(file1_path) as f:
+            data1 = yaml.load(f, Loader=yaml.FullLoader)
+    if file2_path[-4:] == 'json':
+        data2 = json.load(open(file2_path))
+    elif ((file2_path[-4:] == '.yml'
+            or file2_path[-4:] == 'yaml')):
+        with open(file2_path) as f:
+            data2 = yaml.load(f, Loader=yaml.FullLoader)
+    #Calling other functions considering format
+    if format == 'plain':
+        result = plain_diff(data1, data2)
+    elif format == 'json':
+        result = json.dumps(diff(data1, data2))
+    else:
+        result = stylish(diff(data1, data2))
+    return result
+    
 
 def main():
     parser = argparse.ArgumentParser(description='giving info')
@@ -174,25 +197,26 @@ def main():
     parser.add_argument('second_file', type=str)
     parser.add_argument('-f', '--format', help='set format of output')
     args = parser.parse_args()
-    if args.first_file[-4:] == 'json':
-        data1 = json.load(open(args.first_file))
-    elif (args.first_file[-4:] == '.yml'
-            or args.first_file[-4:] == 'yaml'):
-        with open(args.first_file) as f:
-            data1 = yaml.load(f, Loader=yaml.FullLoader)
-    if args.second_file[-4:] == 'json':
-        data2 = json.load(open(args.second_file))
-    elif ((args.second_file[-4:] == '.yml'
-            or args.second_file[-4:] == 'yaml')):
-        with open(args.second_file) as f:
-            data2 = yaml.load(f, Loader=yaml.FullLoader)
-    if args.format == 'plain':
-        result = generate_diff(data1, data2)
-    elif args.format == 'json':
-        result = json.dumps(diff(data1, data2))
-    else:
-        result = stylish(diff(data1, data2))
-    print(result)
+    output = generate_diff(args.first_file, args.second_file, args.format)
+    # if args.first_file[-4:] == 'json':
+    #     data1 = json.load(open(args.first_file))
+    # elif (args.first_file[-4:] == '.yml'
+    #         or args.first_file[-4:] == 'yaml'):
+    #     with open(args.first_file) as f:
+    #         data1 = yaml.load(f, Loader=yaml.FullLoader)
+    # if args.second_file[-4:] == 'json':
+    #     data2 = json.load(open(args.second_file))
+    # elif ((args.second_file[-4:] == '.yml'
+    #         or args.second_file[-4:] == 'yaml')):
+    #     with open(args.second_file) as f:
+    #         data2 = yaml.load(f, Loader=yaml.FullLoader)
+    # if args.format == 'plain':
+    #     result = plain_diff(data1, data2)
+    # elif args.format == 'json':
+    #     result = json.dumps(diff(data1, data2))
+    # else:
+    #     result = stylish(diff(data1, data2))
+    print(output)
 
     # file1 = r"C:\Users\Алексей\PycharmProjects\diff-calc\hexlet_code\gendiff\files\file1.json"
     # file2 = r"C:\Users\Алексей\PycharmProjects\diff-calc\hexlet_code\gendiff\files\file2.json"
