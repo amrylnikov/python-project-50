@@ -167,6 +167,14 @@ def stylish(dict1):
     trans4 = trans3.replace(',', '')
     return trans4
 
+def stylish_plain(input):
+    trans1 = input.replace('\'False\'', 'false')
+    trans2 = trans1.replace('removed:', 'removed')
+    trans3 = trans2.replace('True', 'true')
+    trans4 = trans3.replace('False', 'false')
+    trans5 = trans4.replace('\'True\'', 'true')
+    return trans5
+
 def generate_diff(file1_path, file2_path, format=''):
     #Getting data from files path while checking format
     if file1_path[-4:] == 'json':
@@ -183,7 +191,7 @@ def generate_diff(file1_path, file2_path, format=''):
             data2 = yaml.load(f, Loader=yaml.FullLoader)
     #Calling other functions considering format
     if format == 'plain':
-        result = plain_diff(data1, data2)
+        result = stylish_plain(plain_diff(data1, data2))
     elif format == 'json':
         result = json.dumps(diff(data1, data2))
     else:
@@ -192,31 +200,31 @@ def generate_diff(file1_path, file2_path, format=''):
     
 
 def main():
-    parser = argparse.ArgumentParser(description='giving info')
-    parser.add_argument('first_file', type=str)
-    parser.add_argument('second_file', type=str)
-    parser.add_argument('-f', '--format', help='set format of output')
-    args = parser.parse_args()
-    output = generate_diff(args.first_file, args.second_file, args.format)
-    # if args.first_file[-4:] == 'json':
-    #     data1 = json.load(open(args.first_file))
-    # elif (args.first_file[-4:] == '.yml'
-    #         or args.first_file[-4:] == 'yaml'):
-    #     with open(args.first_file) as f:
-    #         data1 = yaml.load(f, Loader=yaml.FullLoader)
-    # if args.second_file[-4:] == 'json':
-    #     data2 = json.load(open(args.second_file))
-    # elif ((args.second_file[-4:] == '.yml'
-    #         or args.second_file[-4:] == 'yaml')):
-    #     with open(args.second_file) as f:
-    #         data2 = yaml.load(f, Loader=yaml.FullLoader)
-    # if args.format == 'plain':
-    #     result = plain_diff(data1, data2)
-    # elif args.format == 'json':
-    #     result = json.dumps(diff(data1, data2))
-    # else:
-    #     result = stylish(diff(data1, data2))
-    print(output)
+    # parser = argparse.ArgumentParser(description='giving info')
+    # parser.add_argument('first_file', type=str)
+    # parser.add_argument('second_file', type=str)
+    # parser.add_argument('-f', '--format', help='set format of output')
+    # args = parser.parse_args()
+    # output = generate_diff(args.first_file, args.second_file, args.format)
+    # # if args.first_file[-4:] == 'json':
+    # #     data1 = json.load(open(args.first_file))
+    # # elif (args.first_file[-4:] == '.yml'
+    # #         or args.first_file[-4:] == 'yaml'):
+    # #     with open(args.first_file) as f:
+    # #         data1 = yaml.load(f, Loader=yaml.FullLoader)
+    # # if args.second_file[-4:] == 'json':
+    # #     data2 = json.load(open(args.second_file))
+    # # elif ((args.second_file[-4:] == '.yml'
+    # #         or args.second_file[-4:] == 'yaml')):
+    # #     with open(args.second_file) as f:
+    # #         data2 = yaml.load(f, Loader=yaml.FullLoader)
+    # # if args.format == 'plain':
+    # #     result = plain_diff(data1, data2)
+    # # elif args.format == 'json':
+    # #     result = json.dumps(diff(data1, data2))
+    # # else:
+    # #     result = stylish(diff(data1, data2))
+    # print(output)
 
     # file1 = r"C:\Users\Алексей\PycharmProjects\diff-calc\hexlet_code\gendiff\files\file1.json"
     # file2 = r"C:\Users\Алексей\PycharmProjects\diff-calc\hexlet_code\gendiff\files\file2.json"
@@ -225,102 +233,105 @@ def main():
     # a_old = json.load(open(file1))
     # b_old = json.load(open(file2))
     # print(generate_diff(a_old, b_old))
-    # q = {
-    #     "host": "hexlet.io",
-    #     "timeout": 50,
-    #     "proxy": "123.234.53.22",
-    #     "follow": False
-    # }
-    # w = {
-    #     "timeout": 20,
-    #     "verbose": True,
-    #     "host": "hexlet.io"
-    # }
-    # a = {
-    #         "common": {
-    #             "setting1": "Value 2"
-    #         },
-    #         "group1": {
-    #             "a": "s",
-    #             "c": 5
-    #         }
-    # }
-    # b = {
-    #         "common": {
-    #             "setting1": "Value 1",
-    #             "setting2": 200
-    #         },
-    #         "group1": {
-    #             "a": "s"
-    #         },
-    #         "zzz": {
-    #             "m": 23
-    #         }
-    # }
-    # z = {
-    #     "common": {
-    #         "setting1": "Value 1",
-    #         "setting2": 200,
-    #         "setting3": True,
-    #         "setting6": {
-    #             "key": "value",
-    #             "doge": {
-    #                 "wow": ""
-    #             }
-    #         }
-    #     },
-    #     "group1": {
-    #         "baz": "bas",
-    #         "foo": "bar",
-    #         "nest": {
-    #             "key": "value"
-    #         }
-    #     },
-    #     "group2": {
-    #         "abc": 12345,
-    #         "deep": {
-    #             "id": 45
-    #         }
-    #     }
-    # }
-    # x = {
-    #     "common": {
-    #         "follow": False,
-    #         "setting1": "Value 1",
-    #         "setting3": None,
-    #         "setting4": "blah blah",
-    #         "setting5": {
-    #             "key5": "value5"
-    #         },
-    #         "setting6": {
-    #             "key": "value",
-    #             "ops": "vops",
-    #             "doge": {
-    #                 "wow": "so much"
-    #             }
-    #         }
-    #     },
-    #     "group1": {
-    #         "foo": "bar",
-    #         "baz": "bars",
-    #         "nest": "str"
-    #     },
-    #     "group3": {
-    #         "deep": {
-    #             "id": {
-    #                 "number": 45
-    #             }
-    #         },
-    #         "fee": 100500
-    #     }
-    # }
+    q = {
+        "host": "hexlet.io",
+        "timeout": 50,
+        "proxy": "123.234.53.22",
+        "follow": False
+    }
+    w = {
+        "timeout": 20,
+        "verbose": True,
+        "host": "hexlet.io"
+    }
+    a = {
+            "common": {
+                "setting1": "Value 2"
+            },
+            "group1": {
+                "a": "s",
+                "c": 5
+            }
+    }
+    b = {
+            "common": {
+                "setting1": "Value 1",
+                "setting2": 200
+            },
+            "group1": {
+                "a": "s"
+            },
+            "zzz": {
+                "m": 23
+            }
+    }
+    z = {
+        "common": {
+            "setting1": "Value 1",
+            "setting2": 200,
+            "setting3": True,
+            "setting6": {
+                "key": "value",
+                "doge": {
+                    "wow": ""
+                }
+            }
+        },
+        "group1": {
+            "baz": "bas",
+            "foo": "bar",
+            "nest": {
+                "key": "value"
+            }
+        },
+        "group2": {
+            "abc": 12345,
+            "deep": {
+                "id": 45
+            }
+        }
+    }
+    x = {
+        "common": {
+            "follow": False,
+            "setting1": "Value 1",
+            "setting3": None,
+            "setting4": "blah blah",
+            "setting5": {
+                "key5": "value5"
+            },
+            "setting6": {
+                "key": "value",
+                "ops": "vops",
+                "doge": {
+                    "wow": "so much"
+                }
+            }
+        },
+        "group1": {
+            "foo": "bar",
+            "baz": "bars",
+            "nest": "str"
+        },
+        "group3": {
+            "deep": {
+                "id": {
+                    "number": 45
+                }
+            },
+            "fee": 100500
+        }
+    }
     # deep_json1 = r'C:\Users\Алексей\PycharmProjects\diff-calc\tests\fixtures\file1.json'
     # deep_json2 = r'C:\Users\Алексей\PycharmProjects\diff-calc\tests\fixtures\file2.json'
     # t = json.load(open(deep_json1))
     # h = json.load(open(deep_json2))
     # print(t)
     # print(h)
-    # m = diff_plain(z, x)
+    m = plain_diff(z, x)
+    print(m)
+    print('----------------------')
+    print(stylish_plain(m))
     # d = stylish(m)
     # f = None
     # l = json.dumps(f)
